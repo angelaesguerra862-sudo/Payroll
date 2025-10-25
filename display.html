@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Payroll Program</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #ffc1cc, #ffdee9);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .card {
+      background: #fff;
+      padding: 35px;
+      border-radius: 20px;
+      width: 420px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+      border: 3px solid #ff8ab8;
+    }
+    h2 {
+      text-align: center;
+      color: #ff3f7f;
+      font-weight: 700;
+    }
+    p {
+      margin: 6px 0;
+      font-size: 15px;
+      color: #444;
+    }
+    .total {
+      font-weight: bold;
+      font-size: 18px;
+      text-align: center;
+      color: #e73370;
+      margin-top: 10px;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #ffd6e0;
+      margin: 10px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>PAYROLL PROGRAM</h2>
+    <div id="output"></div>
+  </div>
+
+  <script>
+    const data = JSON.parse(localStorage.getItem("payrollData"));
+    if (data) {
+      const gross = data.rate * data.days;
+      const sss = gross * 0.05;
+      const pagibig = gross * 0.03;
+      const philhealth = gross * 0.02;
+      const tax = gross * 0.05;
+      const totalDeductions = sss + pagibig + philhealth + tax;
+      const netPay = gross - totalDeductions;
+
+      document.getElementById("output").innerHTML = `
+        <p><b>ID:</b> ${data.id}</p>
+        <p><b>Name:</b> ${data.first} ${data.middle} ${data.last}</p>
+        <p><b>Position:</b> ${data.position}</p>
+        <p><b>Rate per Day:</b> ₱${data.rate.toFixed(2)}</p>
+        <p><b>Work Days:</b> ${data.days}</p>
+        <p><b>Gross Pay:</b> ₱${gross.toFixed(2)}</p>
+        <hr>
+        <p>SSS (5%): ₱${sss.toFixed(2)}</p>
+        <p>PAG-IBIG (3%): ₱${pagibig.toFixed(2)}</p>
+        <p>PHILHEALTH (2%): ₱${philhealth.toFixed(2)}</p>
+        <p>Tax (5%): ₱${tax.toFixed(2)}</p>
+        <p><b>Total Deductions:</b> ₱${totalDeductions.toFixed(2)}</p>
+        <hr>
+        <p class="total">Net Pay: ₱${netPay.toFixed(2)}</p>
+      `;
+    }
+  </script>
+</body>
+</html>
